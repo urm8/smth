@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:12.3
+    environment:
+      POSTGRES_DB: smth
+      POSTGRES_USER: smth
+      POSTGRES_PASSWORD: smth
+    volumes:
+      - db:/var/lib/postgresql/data:rw
+    shm_size: 1g
+  db: # just for convenience, because db is much shorter than postgres + some connection pooling lol ;)
+    image: toloco/pgbouncer:1.16
+    environment:
+      DB_HOST: postgres
+      DB_USER: smth
+      DB_PASSWORD: smth
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+    ports:
+      - "6432:6432"
+  redis:
+    image: redis:6.2
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+  api: &django_conf
+    build:
+      context: ./api
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./api:/app
+      - ./api/files:/app/files
+    environment:
+      DB_URI: postgres://smth:smth@db:6432/smth
+      BROKER_URI: redis://redis:6379/0
+      REDIS_URI: 'redis://redis:6379/1'
+      ALLOWED_HOSTS: "*" # i don't care as long as it is test task
+    ports:
+      - "8000:80"
+  celery:
+    <<: *django_conf
+    command: celery -A scost worker -E -l DEBUG
+    ports: [ ]
+
+volumes:
+  db: { }
+  redis: { }

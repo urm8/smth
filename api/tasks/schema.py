@@ -3,6 +3,8 @@ from uuid import UUID
 from ninja import Field
 from ninja import Schema
 
+from .models import Task
+
 
 class IdName(Schema):
     id: str
@@ -20,5 +22,10 @@ class TaskBase(Schema):
 
 class TaskOut(TaskIn, TaskBase):
     name: str = Field(..., alias="task_type.name")
-    status: str
+    status: int
     meta: dict
+
+
+class TaskUpdate(Schema):
+    status: Task.Status
+    meta: dict = Field(default_factory=dict)
