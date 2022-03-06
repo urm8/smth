@@ -28,7 +28,7 @@ def json_or_raise(method: C) -> C:
             response.raise_for_status()
             return response.json()
         except requests.HTTPError as e:
-            log.exception(f"failed to perform: {method.__name__}", e)
+            log.exception(f"failed to perform: {method.__name__}, error: %s", e)
             raise TasksApiException(e.args)
 
     return inner  # noqa
@@ -48,7 +48,8 @@ class TaskUpdatePayload(TypedDict):
 
 
 class TasksApiClient:
-    base_url = f"{settings.API_HOST}/api/tasks"
+    def __init__(self, host: str | None = None) -> None:
+        self.base_url = f"{host or settings.API_HOST}/api/tasks"
 
     @json_or_raise
     def read_task(self, id: str) -> TaskResponse:
