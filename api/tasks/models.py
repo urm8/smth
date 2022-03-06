@@ -14,6 +14,9 @@ class ModelBase(models.Model):
 class TaskType(ModelBase):
     name = models.CharField(max_length=256, verbose_name="human readable task name", unique=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Task(ModelBase):
     class Status(models.IntegerChoices):
@@ -27,3 +30,8 @@ class Task(ModelBase):
     processing_time = models.IntegerField(verbose_name="time to process")
     status = models.IntegerField(choices=Status.choices, default=Status.NEW)
     meta = models.JSONField(default=dict)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = (models.Index(fields=["-created", "status"]),)
+        ordering = ("-created",)

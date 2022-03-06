@@ -39,14 +39,17 @@ services:
     environment:
       DB_URI: postgres://smth:smth@db:6432/smth
       BROKER_URI: redis://redis:6379/0
-      REDIS_URI: 'redis://redis:6379/1'
       ALLOWED_HOSTS: "*" # i don't care as long as it is test task
+      API_HOST: 'http://api'
     ports:
       - "8000:80"
   celery:
     <<: *django_conf
-    command: celery -A scost worker -E -l DEBUG
+    command: celery -A tasks_api worker -P gevent -l INFO -c100
+    depends_on:
+      - api
     ports: [ ]
+
 
 volumes:
   db: { }

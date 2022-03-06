@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-jw0otuwv8)ms!%om5@^w0tkqm1vs=r)b+=7ud@kfc*g1ukz+yv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split()
 
 
 LOCAL_APPS = ["tasks"]
@@ -97,20 +97,7 @@ DATABASES = {"default": dj_database_url.parse(db_uri)}
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
+AUTH_PASSWORD_VALIDATORS = []
 
 
 # Internationalization
@@ -140,9 +127,12 @@ STATIC_ROOT = os.path.join(
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL = os.environ.get("BROKER_URI")
+CELERY_BROKER_URL = os.environ.get("BROKER_URI")
+CELERY_RESULT_BACKEND = os.environ.get("BROKER_URI")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+
+
+API_HOST = os.environ.get("API_HOST", "http://127.0.0.1:8000")
 
 VERSION = os.environ.get("VERSION", "dev")

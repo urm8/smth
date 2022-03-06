@@ -38,5 +38,5 @@ COPY --from=build /app/__pypackages__/3.10/ /opt/dist/
 
 COPY . .
 EXPOSE 80
-CMD gunicorn --chdir /app tasks_api.wsgi:application -b :80 -w 4 --threads 8
+CMD gunicorn --chdir /app tasks_api.wsgi:application -b :80 -w 2 --threads 2
 ENTRYPOINT ["./entrypoint.sh"]
