@@ -1,6 +1,5 @@
 from typing import Iterable
 from uuid import UUID
-from ninja.responses import codes_4xx, codes_5xx
 
 from ninja import Router
 

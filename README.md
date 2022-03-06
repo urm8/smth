@@ -166,3 +166,8 @@ docker-compose run --rm api python manage.py loaddata initial
 Go to admin [login page](http://localhost:8000/admin/login/?next=/admin/), user: user, password: password.
 Create task types [here](http://localhost:8000/admin/tasks/tasktype/)
 View tasks [here](http://localhost:8000/admin/tasks/task/)
+
+### run tests:
+```
+docker-compose run --rm api pytest .
+```
