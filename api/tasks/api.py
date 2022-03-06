@@ -1,5 +1,6 @@
 from typing import Iterable
 from uuid import UUID
+from ninja.responses import codes_4xx, codes_5xx
 
 from ninja import Router
 
@@ -17,12 +18,12 @@ from .schema import TaskUpdate
 router = Router()
 
 
-@router.post("", response=TaskBase)
+@router.post("/", response={201: TaskBase})
 def create_task(_, task_request: TaskIn):
-    return service.create_task(task_request)
+    return 201, service.create_task(task_request)
 
 
-@router.get("", response=list[TaskOut])
+@router.get("/", response=list[TaskOut])
 def read_tasks(_) -> Iterable[Task]:
     return selectors.read_tasks()
 
