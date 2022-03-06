@@ -19,5 +19,5 @@ admin.site.register(
     list_select_related=["task_type"],
     list_display=["created", "task_id", "processing_time", "status", "task_type"],
     list_filter=["status", "task_type"],
-    search_fields=["task_id", "task_type"],
+    search_fields=["task_id", "task_type__name"],
 )

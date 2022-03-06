@@ -1,0 +1,17 @@
+- model: tasks.tasktype
+  pk: 1
+  fields:
+    name: first_task
+- model: tasks.tasktype
+  pk: 2
+  fields:
+    name: other_task
+- model: auth.user
+  pk: 1
+  fields: 
+    username: user
+    password: pbkdf2_sha256$320000$rVdLDWM72zheV80skUKtMh$EV3gC6bcjYRI/yrFULSOPEmiE5FbpQQycWqflvITBL8=
+    email: user@email.local
+    is_active: true
+    is_superuser: true
+    is_staff: true

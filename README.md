@@ -150,7 +150,19 @@ Response:
 - EXTRA: Dockerfile для сервиса;
 - EXTRA: docker-compose.yml для запуска API и celery worker’a.
 
-## to run:
+## run:
 ```
 docker-compose up
 ```
+
+### create task types:
+```
+docker-compose run --rm api python manage.py loaddata initial
+```
+### test api:
+[click to test via swagger](http://localhost:8000/api/docs#/default/tasks_api_create_task) (no auth required)
+
+### test admin:
+Go to admin [login page](http://localhost:8000/admin/login/?next=/admin/), user: user, password: password.
+Create task types [here](http://localhost:8000/admin/tasks/tasktype/)
+View tasks [here](http://localhost:8000/admin/tasks/task/)

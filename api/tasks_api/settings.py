@@ -81,6 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "tasks_api.wsgi.application"
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -116,11 +117,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "/static/"
+files_dir = os.path.join(BASE_DIR, 'files')
 STATIC_ROOT = os.path.join(
-    BASE_DIR,
-    "files",
+    files_dir,
     "static",
 )
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+FIXTURE_DIRS = [ os.path.join(BASE_DIR, 'fixtures') ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
